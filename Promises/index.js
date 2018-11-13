@@ -60,5 +60,13 @@ function promiseIsSorted(arr) {
     });
 }
 
-promiseIsSorted([2, 1, 3, 7, 6, 4, 3, 2, 1]);
+// promiseIsSorted([2, 1, 3, 7, 6, 4, 3, 2, 1]);
 // promiseIsSorted([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+
+function processOne() {
+  let input = JSON.parse(
+    `[${document.querySelector('#exerciseOneInput').value}]`
+  );
+
+  promiseIsSorted(input);
+}
