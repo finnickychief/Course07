@@ -75,7 +75,23 @@ function containsNumber(string, callback1, callback2) {
   let containsNum = false;
   let firstIndex = 0;
 
+  let num = string.match(/\d+/g);
+
+  if (num) {
+    containsNum = true;
+    firstIndex = string.indexOf(num);
+  }
+
   // Check for a number within ‘string’
+  // for (let i = 0; i < string.length; i++) {
+  //   // if (Number(string[i]) !== NaN) {
+  //   if (!isNaN(string[i])) {
+  //     // Not NOT a number
+  //     containsNum = true;
+  //     firstIndex = i;
+  //     break;
+  //   }
+  // }
 
   if (containsNum) {
     callback1(string, firstIndex);
@@ -90,7 +106,44 @@ function noNumber(str) {
   console.log(`${str} does not contain a number.`);
 }
 
+function containsNumberPromise(string) {
+  let promise = new Promise((resolve, reject) => {
+    let containsNum = false;
+    let firstIndex = 0;
+
+    let num = string.match(/\d+/g);
+
+    if (num) {
+      containsNum = true;
+      firstIndex = string.indexOf(num);
+    }
+    // Built an answer/response object to pass more than one piece of information as a single parameter
+    let answer = {
+      str: string,
+      index: firstIndex
+    };
+
+    if (containsNum) {
+      resolve(answer);
+    } else {
+      reject(string);
+    }
+  });
+
+  promise
+    .then(result => {
+      console.log(`${result.str} contained a number at index ${result.index}!`);
+    })
+    .catch(str => {
+      console.log(`${str} does not contain a number.`);
+    });
+}
+
 function processTwoCallback() {
   let input = document.querySelector('#exerciseTwoInput').value;
   containsNumber(input, containedNumber, noNumber);
+}
+function processTwoPromise() {
+  let input = document.querySelector('#exerciseTwoInput').value;
+  containsNumberPromise(input);
 }
