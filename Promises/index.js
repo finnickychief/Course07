@@ -70,3 +70,27 @@ function processOne() {
 
   promiseIsSorted(input);
 }
+
+function containsNumber(string, callback1, callback2) {
+  let containsNum = false;
+  let firstIndex = 0;
+
+  // Check for a number within ‘string’
+
+  if (containsNum) {
+    callback1(string, firstIndex);
+  } else {
+    callback2(string);
+  }
+}
+function containedNumber(str, index) {
+  console.log(`${str} contained a number at index ${index}!`);
+}
+function noNumber(str) {
+  console.log(`${str} does not contain a number.`);
+}
+
+function processTwoCallback() {
+  let input = document.querySelector('#exerciseTwoInput').value;
+  containsNumber(input, containedNumber, noNumber);
+}
