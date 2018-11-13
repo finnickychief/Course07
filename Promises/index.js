@@ -147,3 +147,46 @@ function processTwoPromise() {
   let input = document.querySelector('#exerciseTwoInput').value;
   containsNumberPromise(input);
 }
+
+function processThree() {
+  let input = Number(document.querySelector('#exerciseThreeInput').value);
+  console.log(input);
+  usersLongestPost(input);
+}
+
+function usersLongestPost(id) {
+  let url = `https://jsonplaceholder.typicode.com/posts/`;
+
+  // let promise = new Promise((resolve, reject) => {
+  //   let xhr = new XMLHttpRequest();
+  //   xhr.open('GET', url, true);
+  //   xhr.onload = () => {
+  //     if (xhr.status === 200) {
+  //       let data = JSON.parse(xhr.responseText);
+  //       resolve(data);
+  //     } else if (xhr.status > 400) {
+  //       reject(data);
+  //     }
+  //   };
+  //   xhr.send();
+  // });
+
+  // promise // Used for xhr
+  fetch(url)
+    .then(resp => resp.json())
+    .then(posts => {
+      posts = posts.filter(post => post.userId === id);
+      console.log(posts);
+
+      let longestIndex = 0;
+
+      for (let i = 1; i < posts.length; i++) {
+        if (posts[i].body.length > posts[longestIndex].body.length) {
+          longestIndex = i;
+        }
+      }
+
+      console.log(posts[longestIndex]);
+    })
+    .catch(err => console.log(err));
+}
