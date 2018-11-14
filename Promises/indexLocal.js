@@ -237,7 +237,49 @@ function processFour() {
 }
 
 // Exercise 5
-function githubRepoInfo(username) {}
+
+function githubRepoInfo(username) {
+  let url = username ? `https://api.github.com/users/${username}` : 'user.json';
+
+  fetch(url)
+    .then(resp => resp.json()) // Convert response's json to a real object or array
+    .then(user => {
+      // user is an object
+      console.log(user);
+      return fetch(user.repos_url);
+    })
+    .then(resp => resp.json())
+    .then(repos => {
+      // repos is an array
+      console.log(repos);
+
+      // Find the repo with the largest size
+      let largeSizeIndex = 0;
+
+      for (let i = 1; i < repos.length; i++) {
+        // If we've found a new largest one
+        if (repos[i].size > repos[largeSizeIndex].size) {
+          largeSizeIndex = i;
+          console.log(`New largest size is at ${largeSizeIndex}`);
+        }
+      }
+
+      // This gets the repo with the largest size
+      let repo = repos.reduce((acc, repo) => {
+        acc = acc.size < repo.size ? acc : repo;
+        return acc;
+      });
+
+      //  let repo = repos[largeSizeIndex];
+      // html_url, created_at, updated_at, and stargazers_count(
+      let output = `URL: ${repo.html_url} was created on ${
+        repo.created_at
+      }, last updated on ${repo.updated_at} and has ${
+        repo.stargazers_count
+      } stars`;
+      console.log(output);
+    });
+}
 function processFive() {
   let input = document.querySelector('#exerciseFiveInput').value;
   console.log(input);
