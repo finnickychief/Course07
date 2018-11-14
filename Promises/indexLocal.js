@@ -195,9 +195,13 @@ function usersLongestPost(id) {
 // Get user GitHub information and followers
 
 function githubInfo(username) {
-  let url = `user.json`;
+  let url = username ? `https://api.github.com/users/${username}` : 'user.json';
 
-  fetch(url)
+  fetch(url, {
+    headers: {
+      Authorization: `Token ${githubKey}`
+    }
+  })
     .then(resp => resp.json())
     .then(data => {
       // Begin step 2
@@ -218,7 +222,9 @@ function githubInfo(username) {
 
       // Begin step 3
       if (data.followers > 0) {
-        return fetch(data.followers_url);
+        return fetch(data.followers_url, {
+          headers: { Authorization: `Token ${githubKey}` }
+        });
       }
       //return undefined;
     })
@@ -240,13 +246,17 @@ function processFour() {
 
 function githubRepoInfo(username) {
   let url = username ? `https://api.github.com/users/${username}` : 'user.json';
-
-  fetch(url)
+  console.log(`Token ${githubKey}`);
+  fetch(url, {
+    headers: { Authorization: `Token ${githubKey}` }
+  })
     .then(resp => resp.json()) // Convert response's json to a real object or array
     .then(user => {
       // user is an object
       console.log(user);
-      return fetch(user.repos_url);
+      return fetch(user.repos_url, {
+        headers: { Authorization: `Token ${githubKey}` }
+      });
     })
     .then(resp => resp.json())
     .then(repos => {
