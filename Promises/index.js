@@ -190,3 +190,48 @@ function usersLongestPost(id) {
     })
     .catch(err => console.log(err));
 }
+
+// Exercise 4
+// Get user GitHub information and followers
+
+function githubInfo(username) {
+  let url = `https://api.github.com/users/${username}`;
+
+  fetch(url)
+    .then(resp => resp.json())
+    .then(data => {
+      // Begin step 2
+      let output = `User was created on: ${data.created_at} and has ${
+        data.followers
+      } followers.`;
+
+      // if(data.email){
+      //   output += ` Their email is ${data.email}.`;
+      // }
+
+      output += data.email
+        ? ` Their email is ${data.email}.`
+        : ` They have no public email.`;
+
+      console.log(output);
+      // End step 2
+
+      // Begin step 3
+      if (data.followers > 0) {
+        return fetch(data.followers_url);
+      }
+      //return undefined;
+    })
+    .then(resp => resp.json())
+    .then(followers => {
+      let logins = followers.map(follower => follower.login);
+      console.log(logins);
+    })
+    .catch(err => console.log(err));
+}
+
+function processFour() {
+  let input = document.querySelector('#exerciseFourInput').value;
+  console.log(input);
+  githubInfo(input);
+}
