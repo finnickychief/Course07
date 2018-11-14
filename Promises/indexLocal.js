@@ -235,3 +235,11 @@ function processFour() {
   console.log(input);
   githubInfo(input);
 }
+
+// Exercise 5
+function githubRepoInfo(username) {}
+function processFive() {
+  let input = document.querySelector('#exerciseFiveInput').value;
+  console.log(input);
+  githubRepoInfo(input);
+}
