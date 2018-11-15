@@ -333,3 +333,19 @@ let {
 console.log(showtime);
 console.log(cost);
 console.log(targetAudience);
+
+/*
+
+  Exercise:
+    Go through problems 3-5 in indexLocal.js and find opportunities to convert objects into a destructured format.
+
+
+
+
+
+
+
+
+
+
+*/

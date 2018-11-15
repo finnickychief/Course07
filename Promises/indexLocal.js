@@ -175,7 +175,7 @@ function usersLongestPost(id) {
   fetch(url)
     .then(resp => resp.json())
     .then(posts => {
-      posts = posts.filter(post => post.userId === id);
+      posts = posts.filter(({ userId }) => userId === id);
       console.log(posts);
 
       let longestIndex = 0;
@@ -203,26 +203,24 @@ function githubInfo(username) {
     }
   })
     .then(resp => resp.json())
-    .then(data => {
+    .then(({ created_at, followers, email, followers_url }) => {
       // Begin step 2
-      let output = `User was created on: ${data.created_at} and has ${
-        data.followers
-      } followers.`;
+      let output = `User was created on: ${created_at} and has ${followers} followers.`;
 
       // if(data.email){
       //   output += ` Their email is ${data.email}.`;
       // }
 
-      output += data.email
-        ? ` Their email is ${data.email}.`
+      output += email
+        ? ` Their email is ${email}.`
         : ` They have no public email.`;
 
       console.log(output);
       // End step 2
 
       // Begin step 3
-      if (data.followers > 0) {
-        return fetch(data.followers_url, {
+      if (followers > 0) {
+        return fetch(followers_url, {
           headers: { Authorization: `Token ${githubKey}` }
         });
       }
@@ -230,7 +228,7 @@ function githubInfo(username) {
     })
     .then(resp => resp.json())
     .then(followers => {
-      let logins = followers.map(follower => follower.login);
+      let logins = followers.map(({ login }) => login);
       console.log(logins);
     })
     .catch(err => console.log(err));
@@ -275,18 +273,16 @@ function githubRepoInfo(username) {
       }
 
       // This gets the repo with the largest size
-      let repo = repos.reduce((acc, repo) => {
-        acc = acc.size < repo.size ? acc : repo;
-        return acc;
-      });
+      let { html_url, created_at, updated_at, stargazers_count } = repos.reduce(
+        (acc, repo) => {
+          acc = acc.size < repo.size ? acc : repo;
+          return acc;
+        }
+      );
 
       //  let repo = repos[largeSizeIndex];
       // html_url, created_at, updated_at, and stargazers_count(
-      let output = `URL: ${repo.html_url} was created on ${
-        repo.created_at
-      }, last updated on ${repo.updated_at} and has ${
-        repo.stargazers_count
-      } stars`;
+      let output = `URL: ${html_url} was created on ${created_at}, last updated on ${updated_at} and has ${stargazers_count} stars`;
       console.log(output);
     });
 }
