@@ -232,3 +232,104 @@ let users = [
 ];
 
 let userOne = users[0];
+
+// Pass in the entire user
+//function stringifyUser(user) {
+// Immediately create copies of the properties on the user, this allows you to safely pass objects and arrays without worrying about the values changing
+function stringifyUser({ name, email, website }) {
+  // Declare new variables manually
+  // let name = user.name;
+  // let email = user.email;
+  // let website = user.website;
+
+  //let { name, email, website } = user; // Destructure with newly created variables
+
+  return `User's name is ${name}, their email is ${email} and their website is ${website}`;
+}
+
+console.log('');
+console.log(stringifyUser(userOne));
+console.log('');
+
+// Create an array that contains the email and the website of all of our users.
+
+const userOneSites = {
+  website: 'hildegard.org',
+  email: 'Sincere@april.biz'
+};
+
+// Convert this mapping to a version that uses destructuring
+// let sitesArray = users.map(user => {
+//   return {
+//     website: user.website,
+//     email: user.email
+//   };
+// });
+
+// console.log(sitesArray);
+// Answer:
+let sitesArray = users.map(({ website, email }) => {
+  return {
+    website,
+    email
+  };
+});
+
+// console.log(sitesArray);
+
+// Renaming destructured variables
+let { website, email } = userOne;
+// Same as writing:
+/*
+let website = userOne.website;
+let email = userOne.email;
+*/
+let { website: site, email: contact } = userOne;
+// Same as writing:
+/*
+let site = userOne.website;
+let contact = userOne.email;
+*/
+// let { html_url: htmlUrl } = githubUser;
+console.log(site);
+
+const user = {
+  id: 339,
+  name: 'Fred',
+  age: 42,
+  education: {
+    degree: 'Masters'
+  }
+};
+const {
+  id,
+  name,
+  age,
+  education: { degree } // Grab only the degree out of the education property
+} = user;
+// const { degree } = education;
+console.log(degree); //prints: Masters
+
+// Default values with destructuring:
+// These work in the same manner as default values in parameters
+function sayHi(msg = 'Hi there') {
+  console.log(msg);
+}
+
+const movie = {
+  title: 'Spiderman',
+  showtime: '7PM',
+  rating: 'PG'
+};
+// showtime will stay 7pm because the object already has a showtime value. cost will be $5.00 because it was not on the object.
+//
+let {
+  title,
+  showtime = '8PM',
+  cost = '$5.00',
+  rating: targetAudience = 'PG13' // Pulls rating and renames it to targetAudience, and assigns a default value of PG13 if there was no rating
+} = movie;
+
+console.log(showtime);
+console.log(cost);
+console.log(targetAudience);
